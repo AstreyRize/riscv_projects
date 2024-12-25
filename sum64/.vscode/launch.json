@@ -1,0 +1,44 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "RISC-V Remote Debug",
+            "type": "cppdbg",
+            "request": "launch",
+            
+            // Путь к исполняемому файлу, который вы отлаживаете
+            "program": "${workspaceFolder}/program",
+            
+            // Путь к gdb (можете заменить на riscv64-linux-gnu-gdb, если собран и установлен)
+            "MIMode": "gdb",
+            "miDebuggerPath": "/usr/bin/gdb-multiarch",
+            
+            // Опция для подключения к удаленному GDB-серверу
+            "miDebuggerServerAddress": "localhost:1234",
+            
+            // Так как QEMU уже запущен, мы не хотим запускать программу заново
+            "launchCompleteCommand": "None",
+            "setupCommands": [
+                {
+                    "text": "set architecture riscv:rv64",
+                    "description": "Установка архитектуры RISC-V 64-bit",
+                    "ignoreFailures": false
+                },
+                {
+                    "text": "break _start"
+                }
+            ],
+            
+            // Не запускаем программу, а подключаемся к уже запущенному QEMU
+            "targetArchitecture": "x86_64", 
+            "cwd": "${workspaceFolder}",
+            "externalConsole": false,
+            "pipeTransport": null,
+            
+            // Дополнительные настройки
+            "stopAtEntry": true,
+            "environment": [],
+            "internalConsoleOptions": "openOnSessionStart"
+        }
+    ]
+}

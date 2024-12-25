@@ -1,0 +1,48 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Build RISC-V",
+            "type": "shell",
+            "command": "riscv64-linux-gnu-gcc",
+            "args": [
+                "-g",
+                "-nostdlib",
+                "-static",
+                "-o",
+                "program",
+                "program.s"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Run QEMU",
+            "type": "shell",
+            "command": "qemu-riscv64",
+            "args": [
+                "-g",
+                "1234",
+                "./program"
+            ],
+            "isBackground": true,
+            "problemMatcher": [],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            }
+        },
+        {
+            "label": "Build",
+            "dependsOn": ["Build RISC-V"],
+            "dependsOrder": "sequence"
+        },
+        {
+            "label": "Build and Run",
+            "dependsOn": ["Build RISC-V", "Run QEMU"],
+            "dependsOrder": "sequence"
+        }
+    ]
+}
